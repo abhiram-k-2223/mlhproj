@@ -60,19 +60,3 @@ while True:
 cv2.destroyAllWindows()
 cap.release() 
 
-import tensorflow as tf
-import tensorflow_hub as hub
-
-model_url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"
-
-model = tf.keras.Sequential([
-    tf.keras.layers.Input(shape=(224, 224, 3)),
-    hub.KerasLayer(model_url)
-])
-model.build([None, 224, 224, 3])
-
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
-
-with open("eye_detection_model.tflite", "wb") as f:
-    f.write(tflite_model)
